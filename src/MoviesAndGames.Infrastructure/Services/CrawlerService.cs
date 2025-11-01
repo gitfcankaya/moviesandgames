@@ -1,4 +1,5 @@
 using HtmlAgilityPack;
+using Microsoft.Extensions.Logging;
 using MoviesAndGames.Core.Entities;
 using MoviesAndGames.Core.Enums;
 using MoviesAndGames.Core.Interfaces;
@@ -8,10 +9,12 @@ namespace MoviesAndGames.Infrastructure.Services;
 public class CrawlerService : ICrawlerService
 {
     private readonly HttpClient _httpClient;
+    private readonly ILogger<CrawlerService> _logger;
 
-    public CrawlerService(HttpClient httpClient)
+    public CrawlerService(HttpClient httpClient, ILogger<CrawlerService> logger)
     {
         _httpClient = httpClient;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<Content>> CrawlMoviesAsync(string source, int count = 10)
@@ -51,8 +54,8 @@ public class CrawlerService : ICrawlerService
         }
         catch (Exception ex)
         {
-            // Log error
-            Console.WriteLine($"Error crawling movies: {ex.Message}");
+            var sanitizedSource = Uri.TryCreate(source, UriKind.Absolute, out var uri) ? uri.Host : "invalid-url";
+            _logger.LogError(ex, "Error crawling movies from source: {Source}", sanitizedSource);
         }
 
         return contents;
@@ -93,7 +96,8 @@ public class CrawlerService : ICrawlerService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error crawling series: {ex.Message}");
+            var sanitizedSource = Uri.TryCreate(source, UriKind.Absolute, out var uri) ? uri.Host : "invalid-url";
+            _logger.LogError(ex, "Error crawling series from source: {Source}", sanitizedSource);
         }
 
         return contents;
@@ -134,7 +138,8 @@ public class CrawlerService : ICrawlerService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error crawling games: {ex.Message}");
+            var sanitizedSource = Uri.TryCreate(source, UriKind.Absolute, out var uri) ? uri.Host : "invalid-url";
+            _logger.LogError(ex, "Error crawling games from source: {Source}", sanitizedSource);
         }
 
         return contents;

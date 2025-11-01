@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MoviesAndGames.Core.Interfaces;
 using System.Text.Json;
 
@@ -7,12 +8,14 @@ namespace MoviesAndGames.Infrastructure.Services;
 public class TicketmasterService : ITicketmasterService
 {
     private readonly HttpClient _httpClient;
+    private readonly ILogger<TicketmasterService> _logger;
     private readonly string _apiKey;
     private const string BaseUrl = "https://app.ticketmaster.com/discovery/v2";
 
-    public TicketmasterService(HttpClient httpClient, IConfiguration configuration)
+    public TicketmasterService(HttpClient httpClient, IConfiguration configuration, ILogger<TicketmasterService> logger)
     {
         _httpClient = httpClient;
+        _logger = logger;
         _apiKey = configuration["Ticketmaster:ApiKey"] ?? string.Empty;
     }
 
@@ -26,7 +29,7 @@ public class TicketmasterService : ITicketmasterService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error getting event details: {ex.Message}");
+            _logger.LogError(ex, "Error getting event details for event ID: {EventId}", eventId);
             return null;
         }
     }
@@ -45,7 +48,7 @@ public class TicketmasterService : ITicketmasterService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error getting ticket purchase URL: {ex.Message}");
+            _logger.LogError(ex, "Error getting ticket purchase URL for event ID: {EventId}", eventId);
         }
         
         return null;
@@ -79,7 +82,7 @@ public class TicketmasterService : ITicketmasterService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error searching events: {ex.Message}");
+            _logger.LogError(ex, "Error searching events with keyword: {Keyword}, location: {Location}", keyword, location ?? "none");
         }
         
         return events;
