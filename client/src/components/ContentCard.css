@@ -1,0 +1,113 @@
+.content-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.content-card-image {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.content-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+  color: white;
+  font-weight: bold;
+}
+
+.content-type-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: white;
+}
+
+.content-type-badge.movie {
+  background: #e74c3c;
+}
+
+.content-type-badge.series {
+  background: #3498db;
+}
+
+.content-type-badge.game {
+  background: #2ecc71;
+}
+
+.content-card-body {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-title {
+  font-size: 1.25rem;
+  margin: 0 0 1rem 0;
+  color: #333;
+}
+
+.content-description {
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  flex: 1;
+}
+
+.content-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.content-rating {
+  font-weight: bold;
+  color: #f39c12;
+}
+
+.content-date {
+  color: #999;
+  font-size: 0.875rem;
+}
+
+.content-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.content-link:hover {
+  color: #764ba2;
+}
